@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ScalaSbtSettings">
+    <option name="customVMPath" value="C:\learn\software\sbt-0.13.13\bin" />
+    <option name="vmParameters" value="-XX:MaxPermSize=384M -Dhttp.proxyHost=one.proxy.att.com -Dhttp.proxyPort=8080 -Dhttp.proxyUser=itservices\mg153v -Dhttp.proxyPassword=Mysore1$ -Dhttps.proxyHost=one.proxy.att.com -Dhttps.proxyPort=8080 -Dhttps.proxyUser=itservices\mg153v -Dhttps.proxyPassword=Mysore1$" />
+  </component>
+</project>

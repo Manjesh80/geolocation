@@ -13,6 +13,13 @@ public class GeoLocation implements Serializable {
     private double latitude;
     private double longitude;
 
+    public GeoLocation(double latitude, double longitude, UUID userId, long timestamp) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.userId = userId;
+        this.timestamp = timestamp;
+    }
+
     public GeoLocation() {
 
     }

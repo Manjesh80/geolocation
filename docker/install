@@ -1,0 +1,13 @@
+Install Docker toolbox
+
+docker-machine ls
+docker-machine create -d virtualbox --virtualbox-memory=4096 --virtualbox-cpu-count=2 default
+eval $(docker-machine env default)
+docker ps -a
+
+Build docker-image
+
+docker build -t ganesh/geolocation .
+docker run -p 8080:8080 ganesh/geolocation
+docker-machine ip default
+

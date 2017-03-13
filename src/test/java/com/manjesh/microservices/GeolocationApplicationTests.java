@@ -43,6 +43,6 @@ public class GeolocationApplicationTests {
     public void testGetAllGeolocation() {
         ResponseEntity<GeoLocation[]> forEntity = restTemplate.getForEntity("/geolocation", GeoLocation[].class);
         Assert.assertEquals("Geolocation creation test", 200, forEntity.getStatusCode().value());
-        Assert.assertEquals("Geolocation creation test", 1, forEntity.getBody().length);
+        Assert.assertEquals("Geolocation creation test", 2, forEntity.getBody().length);
     }
 }

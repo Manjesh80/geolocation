@@ -1,0 +1,41 @@
+Book https://www.safaribooksonline.com/library/view/microservices-deployment-cookbook/9781786469434/ch03s02.html
+
+Install Docker toolbox
+
+docker-machine ls
+docker-machine create -d virtualbox --virtualbox-memory=4096 --virtualbox-cpu-count=2 default
+eval $(docker-machine env default)
+docker ps -a
+
+Build docker-image
+
+docker build -t ganesh/geolocation .
+docker run -p 8080:8080 ganesh/geolocation
+docker-machine ip default
+
+
+Creating Zookeeper image
+
+docker-compose -f docker-compose-mesos.yml up
+
+List all containers
+
+docker -ps -a -q
+docker ps -a
+docker rm $(docker ps -a -q)
+
+
+*** SET
+export COMPOSE_CONVERT_WINDOWS_PATHS=1
+
+Clean restart
+
+docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q) && docker-compose -f docker-compose-mesos.yml up
+
+
+uploading a docker container
+https://docs.docker.com/engine/getstarted/step_six/#step-1-tag-and-push-the-image
+
+1) docker-machine regenerate-certs default
+2)
+docker tag "IMAGE-ID" manjesh80/ganesh/geolocation:latest

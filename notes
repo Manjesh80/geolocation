@@ -14,7 +14,10 @@ export COMPOSE_CONVERT_WINDOWS_PATHS=1
 docker-compose -f docker-compose-mesos.yml up
 
 clean reset of cluster
-docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q) && docker-compose -f docker-compose-mesos.yml up
+docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)
+docker-compose -f docker-compose-mesos.yml up -d
+docker-compose -f docker-compose-zk.yml up -d
+
 
 *** Build docker-image - Simple
 

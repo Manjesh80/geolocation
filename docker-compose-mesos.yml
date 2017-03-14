@@ -1,8 +1,14 @@
 version: "2"
 services:
+  #zookeeper:
+    #image: vikrammurugesan/zookeeper
+    #network_mode: host
+
   zookeeper:
-    image: vikrammurugesan/zookeeper
-    network_mode: host
+    image: mbabineau/zookeeper-exhibitor:latest
+    ports:
+      - "8181:8181"
+      - "2181:2181"
 
   mesos_master:
     image: mesosphere/mesos-master:1.0.1-2.0.93.ubuntu1404

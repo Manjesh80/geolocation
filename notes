@@ -1,41 +1,61 @@
 Book https://www.safaribooksonline.com/library/view/microservices-deployment-cookbook/9781786469434/ch03s02.html
 
-Install Docker toolbox
+** Install Docker toolbox
 
 docker-machine ls
 docker-machine create -d virtualbox --virtualbox-memory=4096 --virtualbox-cpu-count=2 default
 eval $(docker-machine env default)
 docker ps -a
 
-Build docker-image
+*** SET
+export COMPOSE_CONVERT_WINDOWS_PATHS=1
+
+** Setup cluster
+docker-compose -f docker-compose-mesos.yml up
+
+clean reset of cluster
+docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q) && docker-compose -f docker-compose-mesos.yml up
+
+*** Build docker-image - Simple
 
 docker build -t ganesh/geolocation .
 docker run -p 8080:8080 ganesh/geolocation
 docker-machine ip default
 
+*** Incremenation deployment script
 
-Creating Zookeeper image
+mvn clean package -DskipTests
+docker stop $(docker ps -a | grep "manjesh80/geolocation" | awk '{print $1}')
+docker rm $(docker ps -a | grep "manjesh80/geolocation" | awk '{print $1}')
+docker rmi -f $(docker images | grep "manjesh80/geolocation" | awk '{print $3}' )
+docker build -t manjesh80/geolocation:latest -t manjesh80/geolocation:v3.5 .
+docker push manjesh80/geolocation:latest
+docker push manjesh80/geolocation:v3.5
 
-docker-compose -f docker-compose-mesos.yml up
 
-List all containers
+**** Miscellaneous commands
+
+docker tag ganesh/geolocation manjesh80/geolocation
+docker push manjesh80/geolocation
+
+winpty docker login
 
 docker -ps -a -q
 docker ps -a
 docker rm $(docker ps -a -q)
 
+Marathon URLs
 
-*** SET
-export COMPOSE_CONVERT_WINDOWS_PATHS=1
+http://192.168.99.100:8080/v2/apps
 
-Clean restart
+Marthon automatically deploy an application
 
-docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q) && docker-compose -f docker-compose-mesos.yml up
+curl -H "Content-Type: application/json" -X POST -d '{"id": "/geolocation", "cmd": null, "cpus": 1, "mem": 512, "disk": 1024, "instances": 1, "container": {"type": "DOCKER", "volumes": [{"containerPath": "/opt/ganesh/geolocation/data", "hostPath": "/opt/ganesh/geolocation/data", "mode": "RW"} ], "docker": {"image": "manjesh80/geolocation:v3.6", "network": "BRIDGE", "portMappings": [{"containerPort": 8080, "hostPort": 0, "servicePort": 8899, "protocol": "tcp", "labels": {} } ], "privileged": false, "parameters": [], "forcePullImage": false } } }' http://192.168.99.100:8080/v2/apps
 
+Update  - PUT method and URL will be have app name in the en
+curl -H "Content-Type: application/json" -X PUT -d '{"id": "/geolocation", "cmd": null, "cpus": 1, "mem": 512, "disk": 1024, "instances": 2, "container": {"type": "DOCKER", "volumes": [{"containerPath": "/opt/ganesh/geolocation/data", "hostPath": "/opt/ganesh/geolocation/data", "mode": "RW"} ], "docker": {"image": "manjesh80/geolocation:v3.6", "network": "BRIDGE", "portMappings": [{"containerPort": 8080, "hostPort": 0, "servicePort": 8899, "protocol": "tcp", "labels": {} } ], "privileged": false, "parameters": [], "forcePullImage": false } } }' http://192.168.99.100:8080/v2/apps/geolocation
 
-uploading a docker container
-https://docs.docker.com/engine/getstarted/step_six/#step-1-tag-and-push-the-image
+curl http://192.168.99.100:8080/v2/apps/geolocation
 
-1) docker-machine regenerate-certs default
-2)
-docker tag "IMAGE-ID" manjesh80/ganesh/geolocation:latest
+curl -X DELETE http://192.168.99.100:8080/v2/apps/geolocation
+

@@ -10,6 +10,11 @@ services:
       - "8181:8181"
       - "2181:2181"
 
+  consul:
+    image: consul:latest
+    ports:
+      - "8500:8500"
+
   mesos_master:
     image: mesosphere/mesos-master:1.0.1-2.0.93.ubuntu1404
     network_mode: host
@@ -42,3 +47,17 @@ services:
       MARATHON_MASTER: zk://127.0.0.1:2181/mesos
     depends_on:
       - zookeeper
+
+  geolocation-1:
+    image: manjesh80/geolocation:v5.4
+    ports:
+      - "8081"
+    environment:
+      GEOLOCATION_SERVICE_PORT: "8081"
+
+  geolocation-2:
+    image: manjesh80/geolocation:v5.4
+    ports:
+      - "8082"
+    environment:
+      GEOLOCATION_SERVICE_PORT: "8082"

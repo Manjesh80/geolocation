@@ -1,0 +1,6 @@
+
+
+docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)
+docker-compose -f docker-compose-consul.yml up -d
+
+curl -H "Content-Type: application/json" -X POST -d '{"timestamp": 1468203975, "userId": "f1196aac-470e-11e6-beb8-9e71128cae77", "latitude": 41.803488, "longitude": -88.144040}' http://192.168.99.100:8899/geolocation

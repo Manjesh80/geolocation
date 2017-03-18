@@ -1,0 +1,1 @@
+docker build -t manjesh80/nginx-consul-template:latest .

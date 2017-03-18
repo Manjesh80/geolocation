@@ -1,6 +1,8 @@
 package com.manjesh.microservices.model;
 
 import java.io.Serializable;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.UUID;
 
 /**
@@ -12,12 +14,26 @@ public class GeoLocation implements Serializable {
 
     private double latitude;
     private double longitude;
+    private String ip;
+    private UUID userId;
+    private long timestamp;
 
     public GeoLocation(double latitude, double longitude, UUID userId, long timestamp) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.userId = userId;
         this.timestamp = timestamp;
+        this.ip = getHostIp();
+    }
+
+    private String getHostIp() {
+        try {
+            return InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException e) {
+            System.err.println("Error while finding local IP. Using localhost for now. Details: " + e.getMessage());
+            e.printStackTrace();
+            return "localhost";
+        }
     }
 
     public GeoLocation() {
@@ -56,7 +72,11 @@ public class GeoLocation implements Serializable {
         this.timestamp = timestamp;
     }
 
-    private UUID userId;
-    private long timestamp;
+    public String getIp() {
+        return ip;
+    }
 
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 }

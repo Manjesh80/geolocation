@@ -5,6 +5,8 @@ import com.manjesh.microservices.model.GeoLocation;
 import org.springframework.stereotype.Repository;
 
 import java.io.File;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

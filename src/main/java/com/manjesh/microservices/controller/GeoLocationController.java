@@ -1,5 +1,6 @@
 package com.manjesh.microservices.controller;
 
+import com.manjesh.microservices.MetricSystem;
 import com.manjesh.microservices.model.GeoLocation;
 import com.manjesh.microservices.services.GeoLocationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,18 +26,28 @@ public class GeoLocationController {
     @Autowired
     private GeoLocationService geoLocationService;
 
+    @Autowired
+    private MetricSystem metricSystem;
+
     @RequestMapping(method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
     public GeoLocation create(@RequestBody GeoLocation geoLocation) {
+        metricSystem.geolocationWriteRequestCount().inc();
+        metricSystem.markGeolocationLastWriteTime();
         return geoLocationService.create(geoLocation);
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET, produces = "application/json")
     public GeoLocation get(@PathVariable("id") String id) {
+        metricSystem.geolocationWriteRequestCount().inc();
+        metricSystem.markGeolocationLastWriteTime();
         return new GeoLocation(11, 12, UUID.randomUUID(), System.currentTimeMillis());
+
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
     public List<GeoLocation> findAll() {
+        metricSystem.geolocationWriteRequestCount().inc();
+        metricSystem.markGeolocationLastWriteTime();
         return geoLocationService.findAll();
     }
 }

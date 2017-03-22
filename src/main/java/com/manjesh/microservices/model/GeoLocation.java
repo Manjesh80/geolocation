@@ -2,19 +2,35 @@ package com.manjesh.microservices.model;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import org.springframework.beans.factory.annotation.Required;
 
 import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.UUID;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  * Author: mg153v (Manjesh Gowda). Creation Date: 3/7/2017.
  */
+@Entity
 public class GeoLocation extends BaseModel {
 
-    private static final long serialVersionUID = 1L;
+    public String getRowKey() {
+        return rowKey;
+    }
 
+    public void setRowKey(String rowKey) {
+        this.rowKey = rowKey;
+    }
+
+    @Id
+    @NotNull
+    public String rowKey;
+    private static final long serialVersionUID = 1L;
     private double latitude;
     private double longitude;
     private String ip;

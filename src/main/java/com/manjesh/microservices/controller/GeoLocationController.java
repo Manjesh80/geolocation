@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.UUID;
+import javax.validation.Valid;
 
 /**
  * Author: mg153v (Manjesh Gowda). Creation Date: 3/7/2017.
@@ -34,7 +35,7 @@ public class GeoLocationController {
     private MetricSystem metricSystem;
 
     @RequestMapping(method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
-    public GeoLocation create(@RequestBody GeoLocation geoLocation) {
+    public GeoLocation create(@RequestBody @Valid GeoLocation geoLocation) {
         metricSystem.geolocationWriteRequestCount().inc();
         metricSystem.markGeolocationLastWriteTime();
         return geoLocationService.create(geoLocation);

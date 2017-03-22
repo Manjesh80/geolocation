@@ -1,5 +1,9 @@
 package com.manjesh.microservices.model;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Author: mg153v (Manjesh Gowda). Creation Date: 3/22/2017.
  */
@@ -8,6 +12,8 @@ public class ErrorDetail {
     private int status;
     private String detail;
     private long timeStamp;
+
+    private Map<String, List<ValidationError>> errors = new HashMap<String, List<ValidationError>>();
 
     public String getTitle() {
         return title;
@@ -50,4 +56,12 @@ public class ErrorDetail {
     }
 
     private String developerMessage;
+
+    public Map<String, List<ValidationError>> getErrors() {
+        return errors;
+    }
+
+    public void setErrors(Map<String, List<ValidationError>> errors) {
+        this.errors = errors;
+    }
 }

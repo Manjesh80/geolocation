@@ -1,5 +1,8 @@
 package com.manjesh.microservices.model;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -8,7 +11,7 @@ import java.util.UUID;
 /**
  * Author: mg153v (Manjesh Gowda). Creation Date: 3/7/2017.
  */
-public class GeoLocation implements Serializable {
+public class GeoLocation extends BaseModel {
 
     private static final long serialVersionUID = 1L;
 
@@ -61,6 +64,10 @@ public class GeoLocation implements Serializable {
     }
 
     public void setUserId(UUID userId) {
+        this.userId = userId;
+    }
+
+    public void alternateSetUserId(UUID userId) {
         this.userId = userId;
     }
 

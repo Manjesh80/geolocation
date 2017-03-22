@@ -12,7 +12,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class GeolocationApplication {
 
     public static void main(String[] args) {
-
         ConfigurableApplicationContext context = SpringApplication.run(GeolocationApplication.class, args);
         //new Zookeeper("192.168.99.100", 2181).register();
     }

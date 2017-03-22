@@ -4,6 +4,10 @@ import com.manjesh.microservices.MetricSystem;
 import com.manjesh.microservices.model.GeoLocation;
 import com.manjesh.microservices.services.GeoLocationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ResourceNotFoundException;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,5 +53,16 @@ public class GeoLocationController {
         metricSystem.geolocationWriteRequestCount().inc();
         metricSystem.markGeolocationLastWriteTime();
         return geoLocationService.findAll();
+    }
+
+    @RequestMapping(path = "/areyouready")
+    public ResponseEntity<?> areYouReady() {
+        return new ResponseEntity<>(HttpStatus.BANDWIDTH_LIMIT_EXCEEDED);
+    }
+
+    @RequestMapping(path = "/blowit")
+    public ResponseEntity<?> blowIt() throws ResourceNotFoundException {
+        throw new RuntimeException("Jamba lakadi bamba");
+        //return new ResponseEntity<>(HttpStatus.OK);
     }
 }
